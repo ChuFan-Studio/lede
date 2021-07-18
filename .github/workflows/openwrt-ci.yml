@@ -8,16 +8,16 @@
 name: OpenWrt-CI
 
 on:
-  schedule:
-    - cron: 0 20 1 * *
-  release:
-    types: [published]
+#  schedule:
+#    - cron: 0 20 1 * *
+#  release:
+#    types: [published]
   repository_dispatch:
   workflow_dispatch:
     inputs:
       ssh:
         description: 'SSH connection to Actions'
-        required: true
+        required: false
         default: 'false'
 jobs:
 
@@ -137,7 +137,7 @@ jobs:
 
       - name: Make download
         run: |
-          make download -j8
+          make download -j$(nproc)
           find dl -size -1024c -exec rm -f {} \;
 
       - name: Compile firmware
